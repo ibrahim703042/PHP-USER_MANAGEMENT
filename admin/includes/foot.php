@@ -1,0 +1,68 @@
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../assets/js/apexcharts.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/simple-datatables.js"></script>
+<script src="../assets/js/validate.js"></script>
+<script src="../assets/js/main.js"></script> 
+
+
+<!-- alertifyjs -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+            $('#chosenFile').attr('src', e.target.result).css({
+
+                "margin-bottom": "20px",
+                "width": "100px",
+                "height": "100px"
+                
+                });
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<script >
+    <?php 
+        if(isset($_SESSION['message'])){
+            ?>
+
+                alertify.set('notifier','position', 'top-right');
+                alertify.success('<?= $_SESSION['message']; ?> ');
+
+            <?php
+            unset($_SESSION['message']);
+        }
+
+        if(isset($_SESSION['error'])){
+            ?>
+
+                alertify.set('notifier','position', 'top-right');
+                alertify.success('<?= $_SESSION['error']; ?> ');
+
+            <?php
+            unset($_SESSION['error']);
+        }
+
+        if(isset($_SESSION['warning'])){
+            ?>
+
+                alertify.set('notifier','position', 'top-right');
+                alertify.success('<?= $_SESSION['warning']; ?> ');
+
+            <?php
+            unset($_SESSION['warning']);
+        }
+    ?>
+</script>
+
+
+

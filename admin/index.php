@@ -1,21 +1,19 @@
+
 <?php 
-   include_once 'config/dbconnection.php';
-   include_once 'functions/fonction.php';
-   //include_once 'middleware/adminMiddleware.php';
+   include_once '../config/dbconnection.php';
+   include_once '../functions/fonction.php';
+   //include_once '../middleware/adminMiddleware.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-   <?php 
-      session_start();
-      include 'includes/head.php' 
-   ?>
+   <?php include 'includes/head.php' ?>
    <body>
       <?php include 'includes/header.php' ?>
       <?php include 'includes/sidebar.php' ?>
       
       <main id="main" class="main">
          <?php 
-            $page = isset($_GET['page']) ? $_GET['page'] : 'register';
+            $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             include $page.'.php';
          ?>
       </main>
