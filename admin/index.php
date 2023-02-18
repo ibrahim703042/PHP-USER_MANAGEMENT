@@ -1,8 +1,9 @@
 
-<?php 
+<?php
+   session_start();
    include_once '../config/dbconnection.php';
    include_once '../functions/fonction.php';
-   //include_once '../middleware/adminMiddleware.php';
+   include_once '../middleware/adminMiddleware.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

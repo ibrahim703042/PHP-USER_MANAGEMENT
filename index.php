@@ -1,12 +1,10 @@
-<?php 
+<?php
    include_once 'config/dbconnection.php';
    include_once 'functions/fonction.php';
-   //include_once 'middleware/adminMiddleware.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <?php 
-      session_start();
       include 'includes/head.php' 
    ?>
    <body>

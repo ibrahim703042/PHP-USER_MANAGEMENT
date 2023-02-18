@@ -91,26 +91,22 @@
                 'image' => $image,
             ];
 
-            $_SESSION['message'] = "Logged In Successfully.";
-            header('Location: ../index.php');  
-            // header('Location: ../admin/index.php');  
+            $_SESSION['role_as'] = $role_as;
+            $_SESSION['status'] = $status;
 
+            if( $role_as == 1 ){
+                
+                $_SESSION['message'] = "Logged In Successfully.";
+                header('Location: ../admin/index.php');  
+
+            }else{
+                $_SESSION['error'] = "Logged In Successfully.";
+                header('Location: ../index.php'); 
+            }
+ 
             /* if( password_verify($encrypty_password, $userpassword)){
 
-                $_SESSION['user_id'] = $userID;
-                $_SESSION['role_as'] = $role_as;
-                $_SESSION['status'] = $status;
-    
-                if( $role_as == 1 || $role_as == 2  ){
-                
-                    $_SESSION['message'] = "Logged In Successfully.";
-                    header('Location: ../admin/index.php');  
-    
-                }else{
-                    $_SESSION['error'] = "Logged In Successfully.";
-                    header('Location: index.php'); 
-                }
-    
+               
             
             }else{
                 $_SESSION['error'] = "Incorrect email or password!";

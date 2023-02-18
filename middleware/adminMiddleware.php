@@ -1,15 +1,17 @@
 <?php
-    include_once '../functions/fonction.php';
+    // include_once '../functions/fonction.php';
 
     if(isset($_SESSION['auth'])){
 
-        if( $_SESSION['role_as'] != 1 || $_SESSION['role_as'] != 2 ){
+        if( $_SESSION['role_as'] != 1 ){
 
-            error('../index.php','Your are not authorised to access this page');
+            $_SESSION['error'] = "Your are not authorised to access this page.";
+            header('Location: ../index.php'); 
         }
         
     }else{
-        error('../login.php','LogIn to continue');
+        $_SESSION['error'] = "LogIn to continue.";
+        header('Location: ../login.php');  
     }
 
 ?>

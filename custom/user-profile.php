@@ -3,7 +3,7 @@
    <h1>Profile</h1>
    <nav>
       <ol class="breadcrumb">
-         <li class="breadcrumb-item"><a href="dashboard.php">Home</a>
+         <li class="breadcrumb-item"><a href="index.php">Home</a>
          <li class="breadcrumb-item">User</li>
          <li class="breadcrumb-item active">Profile</li>
       </ol>
@@ -29,8 +29,7 @@
                   <div class="col-xl-4">
                      <div class="card">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                           <!-- <img src="../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">  -->
-                           <img src="../assets/img/avatars/profile/<?= $row['image'] ?>" alt="Profile" class="rounded-circle"> 
+                           <img src="assets/img/avatars/profile/<?= $row['image'] ?>" alt="Profile" class="rounded-circle"> 
                                                             
                            <h2>
                               <?= $row['fname']." ".$row['lname'] ?>
@@ -42,10 +41,14 @@
                                     ?>
                                        <?='Super admin'?>
                                     <?php
-                                 }else{
+                                 }else if($row['role_as'] == 2){
                                     ?>
                                        <?='Admin'?>
                                     <?php                                                   
+                                 }else{
+                                    ?>
+                                       <?= 'Visitor'?>
+                                    <?php  
                                  } 
                               ?> 
                            </h3>
@@ -114,30 +117,26 @@
                                     <div class="col-lg-9 col-md-8"><?= $row['fname']." ".$row['lname'] ?></div>
                                  </div>
 
-                                 <?php
-                                    if($row['role_as'] != 0){
-
-                                       ?>
-                                          <div class="row">
-                                             <div class="col-lg-3 col-md-4 label">Role</div>
-                                             <div class="col-lg-9 col-md-8">
-                                                <?php 
-                                                   if($row['role_as'] == 1){
-                                                      ?>
-                                                         <?='Super admin'?>
-                                                      <?php
-                                                   }else{
-                                                      ?>
-                                                         <?='Admin'?>
-                                                      <?php                                                   
-                                                   } 
-                                                ?> 
-                                             </div>
-                                          </div>
-
-                                       <?php
-                                    }
-                                 ?>
+                                 <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Role</div>
+                                    <div class="col-lg-9 col-md-8">
+                                       <?php 
+                                          if($row['role_as'] == 1){
+                                             ?>
+                                                <?='Super admin'?>
+                                             <?php
+                                          }else if($row['role_as'] == 2){
+                                             ?>
+                                                <?='Admin'?>
+                                             <?php                                                   
+                                          }else{
+                                             ?>
+                                                <?= 'Visitor'?>
+                                             <?php  
+                                          }   
+                                       ?> 
+                                    </div>
+                                 </div>
 
                                  <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Status</div>
@@ -158,7 +157,17 @@
 
                                  <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Country</div>
-                                    <div class="col-lg-9 col-md-8"><?= $row['country']?></div>
+                                    <div class="col-lg-9 col-md-8">
+                                       <?php 
+                                          foreach($GLOBALS['countries_list'] as $country_code => $value){
+                                             if( $row['country'] == $country_code ){
+                                                echo $value['name'];
+                                             }
+                                             
+                                          }
+
+                                       ?>
+                                    </div>
                                  </div>
 
                                  <div class="row">
@@ -193,101 +202,138 @@
                               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                  <!--============================== edit profile image ===========================-->
-                                 <form>
+                                 <form method="POST" enctype="multipart/form-data">
+
                                     <div class="row mb-3">
                                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                                        <div class="col-md-8 col-lg-9">
-                                          <img src="../assets/img/profile-img.jpg" alt="Profile">
+                                          <img src="assets/img/avatars/profile/<?= $row['image'] ?>" alt="Profile">
+                                          <input type="hidden" value="<?= $row['image'] ?>" name="old_image">
+
+                                             
                                           <div class="pt-2"> 
-                                             <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image">
+                                             <span class="" title="Upload new profile image">
+                                                <input type="file" name="file" >
+                                                <button type="submit" class="btn btn-success" name="profile_image_btn">
+                                                   <i class="bi bi-upload"></i>
+                                                </button>
+                                             </span>
+                                             <!-- <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image">
                                                 <i class="bi bi-upload"></i>
                                              </a> 
                                              <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image">
                                                 <i class="bi bi-trash"></i>
-                                             </a>
+                                             </a> -->
                                           </div>
                                        </div>
                                     </div>
+
                                  </form>
                                  
                                  <!--============================== edit profile user information ===========================-->
-                                 <form>
-
+                                 <form method="POST" action="">
+                                    
                                     <div class="row mb-3">
                                        <div class="col-md-6"> 
                                           <label for="fname" class="form-label">First name</label>
-                                          <input type="text" class="form-control" autofocus  name="fname" 
-                                          id="fname" placeholder="Enter first name">
+                                          <input type="text" class="form-control"  name="fname" 
+                                           id="fname" value="<?= $row['fname'] ?>" placeholder="Enter first name">
                                        </div>
 
                                        <div class="col-md-6"> 
                                        <label for="lname" class="form-label">Last name</label>
                                        <input type="text" class="form-control"  name="lname" 
-                                       id="lname" placeholder="Enter last name">
+                                       id="lname" value="<?= $row['lname'] ?>" placeholder="Enter last name">
                                        </div>
                                     </div>
 
                                     <div class="row mb-3">
                                        <div class="col-md-12">
                                           <label for="about" class="form-label">About</label>
-                                          <textarea name="about" class="form-control" id="about" style="height: 100px">
-                                          Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. 
-                                          Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae 
-                                          quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.
-                                          </textarea>
+                                          <textarea name="about" class="form-control" id="about" style="height: 100px"><?= $row['about'] ?></textarea>
                                        </div>    
                                     </div>
 
-                                    <?php
-                                       if($row['role_as'] != 0){
+                                    <div class="row mb-3">
 
-                                          ?>
-                                             <div class="row mb-3">
-                                                <div class="col-md-6"> 
-                                                   <label for="role" class="form-label">Role</label> 
-                                                   <select class="form-select"  name="role" aria-label="Default select example">
-                                                         <option selected disabled>Choose role</option>
-                                                         <option value="1">Super Admin</option>
-                                                         <option value="0">Admin</option>
-                                                   </select>
-                                                </div>
+                                       <div class="col-md-6"> 
+                                          <label for="role" class="form-label">Role</label> 
+                                          <select class="form-select"  name="role" aria-label="Default select example">
+                                                <option value="<?= $row['role_as'] ?>">
+                                                   <?php
+                                                      if($row['role_as'] == 1){
+                                                         echo 'Super admin';
+                                                      }else if($row['role_as'] == 2){
+                                                         echo 'Admin';
+                                                      }else{
+                                                         echo 'No Recod';
+                                                      }
+                                                   ?>
+                                                </option>
+                                                <option disabled>Choose role</option>
+                                                <option value="1">Super Admin</option>
+                                                <option value="0">Admin</option>
+                                          </select>
+                                       </div>
+                                       <div class="col-md-6"> 
+                                          <label for="status" class="form-label">Status</label> 
+                                          <select class="form-select"  name="status" aria-label="Default select example">
+                                             <option value="<?= $row['role_as'] ?>">
+                                                <?php
+                                                   if($row['status'] == 1){
+                                                      echo 'Enable';
+                                                   }else if($row['status'] == 0){
+                                                      echo 'Disable';
+                                                   }else{
+                                                      echo 'No Recod';
+                                                   }
+                                                ?>
+                                             </option>
+                                             <option disabled>Choose Status</option>
+                                             <option value="1">Enable</option>
+                                             <option value="0">Disable</option>
+                                          </select>
+                                       </div>   
 
-                                                <div class="col-md-6"> 
-                                                   <label for="status" class="form-label">Status</label> 
-                                                   <select class="form-select"  name="status" aria-label="Default select example">
-                                                      <option selected disabled>Choose Status</option>
-                                                      <option value="1">Enable</option>
-                                                      <option value="0">Disable</option>
-                                                   </select>
-                                                </div>    
-                                             </div>
-                                          <?php
-                                       }
-                                    ?>
+                                    </div>
 
                                     <div class="row mb-3">
-                                       <div class="col-md-6"> 
-                                          <label for="country" class="form-label">Country</label>
-                                          <input type="text" class="form-control" autofocus  name="country" 
-                                          id="country" placeholder="Enter Country">
-                                       </div>
 
                                        <div class="col-md-6"> 
+                                          <label for="country" class="form-label">Country</label> 
+                                          <select class="form-select" id="country"  name="country" aria-label="Default select example">
+                                             
+                                             <option value="" disabled selected >Choose country</option>
+                                             <?php 
+                                                /* foreach($GLOBALS['countries_list'] as $country_code => $value){
+                                                   ?>
+                                                      <option value="<?= $country_code ?>" <?= $row['country'] == $country_code ? 'Selected' :''?> > <?= $value['name'] ?></option>
+
+                                                   <?php
+                                                } */
+                                                echo selected_countries_in_array();
+
+                                             ?>
+
+                                          </select>
+                                       </div>
+                                       <div class="col-md-6"> 
                                           <label for="address" class="form-label">Address</label>
-                                          <input type="text" class="form-control"  name="address" 
+                                          <input type="text"  class="form-control" value="<?= $row['address'] ?>"  name="address" 
                                           id="address" placeholder="Enter address">
                                        </div>
+
                                     </div>
 
                                     <div class="row mb-3">
                                        <div class="col-md-6"> 
                                           <label for="phone" class="form-label">Phone</label> 
-                                          <input type="tel" class="form-control"  name="phone" 
+                                          <input type="tel" class="form-control" value="<?= $row['contact_no'] ?>"  name="phone" 
                                           id="phone" placeholder="Enter Phone number">
                                        </div>
                                        <div class="col-md-6"> 
                                           <label for="email" class="form-label">Email</label>
-                                          <input type="email" class="form-control"  name="email" 
+                                          <input type="email" class="form-control" readonly value="<?= $row['email'] ?>"  name="email" 
                                           id="email" placeholder="Enter e-mail">
                                        </div>
                                     </div>
@@ -360,6 +406,7 @@
                         </div>
                      </div>
                   </div>
+
                </div>
             </section>
 
@@ -375,10 +422,10 @@
                            <section class="section error-404 d-flex flex-column align-items-center justify-content-center">
                                  <h1>404</h1>
                                  <h2>The id you are looking for doesn't exist.</h2>
-                                 <a class="btn" href="dashboard.php?page=pages/users/index">
+                                 <a class="btn" href="index.php?page=pages/users/index">
                                     Back to home
                                  </a> 
-                                 <img src="../assets/img/not-found.svg" class="img-fluid py-2" alt="Page Not Found" width="200">
+                                 <img src="assets/img/not-found.svg" class="img-fluid py-2" alt="Page Not Found" width="200">
                            </section>
                         </div>
                      </div>
@@ -392,3 +439,33 @@
    }
 ?>
 
+<?php 
+
+   if(isset($_POST["profile_image_btn"])){
+
+      $target= $_FILES['file']['name'];
+      $old_image= $_POST["old_image"];
+      $newImage = $_FILES['file']['name'];
+   
+      if( $newImage != "" ){
+         $target = $newImage;
+      }else{
+         $target = $old_image;
+         redirect('index.php?page=pages/users/admins/index','Data Updated Successfully');
+      }
+
+      $sql="UPDATE users SET image='$target' WHERE id=".$id."";
+      $query=$dbconnection->EXEC($sql);
+
+      if($query){
+
+         move_uploaded_file($_FILES["file"]["tmp_name"],"assets/img/avatars/profile/".basename($_FILES['file']['name']));
+         redirect('index.php?page=pages/users/admins/index','Data Updated Successfully');
+
+      }else{
+         error('','Something went wrong!');
+      }
+
+   }
+
+?>
