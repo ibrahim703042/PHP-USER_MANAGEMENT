@@ -4,7 +4,7 @@
 define('DB_HOST','localhost');
 define('DB_USER','root');
 define('DB_PASSWORD','');
-define('DB_DATABASE','pdo_user_management');
+define('DB_DATABASE','php_user_management');
 // Establish database connection.
 
 try{
