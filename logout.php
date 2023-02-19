@@ -1,4 +1,5 @@
 <?php
+
     include 'config/dbconnection.php';
     session_start();
     session_destroy();

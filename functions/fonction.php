@@ -1,6 +1,6 @@
 <?php
 	// include array
-	require ('country/countries-array.php');
+	require ('countries-array.php');
 	
 	function redirect($url, $message){
 		$_SESSION['message']=$message;
@@ -47,27 +47,25 @@
 
 	function index($table){
 
-		global $con;
-		$query = "SELECT * FROM  $table ";
-		$stmt = $con->prepare($query);
-		return $query_run= $stmt->execute();;
+		global $dbconnection;
+		$sql = " SELECT * FROM  $table ";
+		$query = $dbconnection->prepare($sql);
+		return $query_run = $query->execute();
 		
 	}
 
 	function getID($table, $id){
 
-		global $con;
-
-		$stmt = $con->prepare("SELECT * FROM $table WHERE id=:id");
-		$stmt->execute(array(":id"=>$id));
-		$editRow=$stmt->fetch(PDO::FETCH_ASSOC);
-		return $editRow;
+		global $dbconnection;
+		$sql = " SELECT * FROM $table WHERE id = '$id' ";
+		$query = $dbconnection->prepare($sql);
+		return $query_run = $query->execute();
 	}
 
 	function countries_dropdown($user_country_code='') {
 		$option = "";
 		foreach ($GLOBALS['countries_list'] as $key => $value) {
-			$selected = ($key == $user_country_code ? '' : '');
+			$selected = ($key == $user_country_code ? 'selected' : '');
 			$option .= '<option value="'.$key.'"'.$selected.'>'.$value['name'].'</option>'."\n";
 		}
 		return $option;

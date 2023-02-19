@@ -15,6 +15,6 @@
          </button>
       </form>
    </div>
-   <!-- navbar -->
+   <!--======= navbar ==========-->
    <?php include 'navbar.php'; ?>
 </header>

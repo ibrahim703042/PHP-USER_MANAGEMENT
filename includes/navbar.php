@@ -1,3 +1,4 @@
+
 <nav class="header-nav ms-auto">
 
    <?php
@@ -121,7 +122,7 @@
 
                      <li class="message-item">
                         <a href="#">
-                           <img src="../assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                           <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
                            <div>
                               <h4>Jassa</h4>
                               <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -136,7 +137,7 @@
 
                      <li class="message-item">
                         <a href="#">
-                           <img src="../assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                           <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
                            <div>
                               <h4>Jassa</h4>
                               <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -151,7 +152,7 @@
 
                      <li class="message-item">
                         <a href="#">
-                           <img src="../assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                           <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
                            <div>
                               <h4>Jassa</h4>
                               <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -237,4 +238,5 @@
          
       }
    ?>
+
 </nav>

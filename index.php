@@ -1,20 +1,27 @@
 <?php
+   session_start();
    include_once 'config/dbconnection.php';
    include_once 'functions/fonction.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <?php 
-      include 'includes/head.php' 
+      include 'includes/head.php';
+       
    ?>
    <body>
       <?php include 'includes/header.php' ?>
       <?php include 'includes/sidebar.php' ?>
       
       <main id="main" class="main">
-         <?php 
-            $page = isset($_GET['page']) ? $_GET['page'] : 'register';
-            include $page.'.php';
+         <?php
+            if(isset($_SESSION['auth'])){ 
+               $page = isset($_GET['page']) ? $_GET['page'] : 'welcome';
+               include $page.'.php';
+            }else{
+               $page = isset($_GET['page']) ? $_GET['page'] : 'register';
+               include $page.'.php';
+            }
          ?>
       </main>
 

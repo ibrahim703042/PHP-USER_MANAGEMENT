@@ -1,6 +1,7 @@
 <?php
     session_start();
     include '../config/dbconnection.php';
+    include '../functions/fonction.php';
 
     if(isset($_POST['register_user_btn'])){
 
@@ -61,65 +62,59 @@
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $password = mysqli_real_escape_string($con, $_POST['password']);
 
-        // $encrypty_password = password_hash($password, PASSWORD_BCRYPT);
         $encrypty_password = $password;
   
-        $query = " SELECT * FROM users WHERE email = '$email' AND password = '$encrypty_password' LIMIT 1 ";
+        $query = " SELECT * FROM users WHERE email = '$email' ";
         $run_query = mysqli_query($con, $query);
         $row_count = mysqli_num_rows($run_query);
   
         if(mysqli_num_rows($run_query) > 0){
             
             $_SESSION['auth'] = true;
-            
+
             $userdata = mysqli_fetch_array($run_query);
-            $userID = $userdata['id'];
-            $useremail = $userdata['email'];
-            $userfname = $userdata['fname'];
-            $userlname = $userdata['lname'];
             $userpassword = $userdata['password'];
-            $status = $userdata['status'];
-            $role_as = $userdata['role_as'];
-            $image = $userdata['image'];
+            
+            if( password_verify($encrypty_password, $userpassword)){
 
-            $_SESSION['auth_user'] = [
-                'id' => $userID,
-                'fname' => $userfname,
-                'lname' => $userlname,
-                'email' => $useremail,
-                'role' => $role_as,
-                'image' => $image,
-            ];
+                $userID = $userdata['id'];
+                $useremail = $userdata['email'];
+                $userfname = $userdata['fname'];
+                $userlname = $userdata['lname'];
+                $status = $userdata['status'];
+                $role_as = $userdata['role_as'];
+                $image = $userdata['image'];
 
-            $_SESSION['role_as'] = $role_as;
-            $_SESSION['status'] = $status;
+                $_SESSION['auth_user'] = [
+                    'id' => $userID,
+                    'fname' => $userfname,
+                    'lname' => $userlname,
+                    'email' => $useremail,
+                    'role' => $role_as,
+                    'image' => $image,
+                ];
 
-            if( $role_as == 1 ){
-                
-                $_SESSION['message'] = "Logged In Successfully.";
-                header('Location: ../admin/index.php');  
+                $_SESSION['role_as'] = $role_as;
+                $_SESSION['status'] = $status;
 
+                if( ($role_as == 1 && $status == 1) || ($role_as == 2 && $status == 1) ){
+                    redirect('../admin/index.php','Logged In Successfully.');
+
+                }else if( $role_as == 0 && $status == 1 ) {
+                    error('../index.php','Logged In Successfully.');  
+                }else{
+                    error('../login.php','Your account was disabled Approach Admin.'); 
+                }
             }else{
-                $_SESSION['error'] = "Logged In Successfully.";
-                header('Location: ../index.php'); 
+                error('../login.php','Incorrect email or password.');  
             }
- 
-            /* if( password_verify($encrypty_password, $userpassword)){
-
-               
-            
-            }else{
-                $_SESSION['error'] = "Incorrect email or password!";
-                header('Location: ../login.php'); 
-            } */
-
-            
 
         }else{
-            $_SESSION['error'] = "Invalid Credentials.";
-            header('Location: ../login.php'); 
+            error('../login.php','Invalid Credentials.');  
+
         }
 
     }
 
 ?>
+

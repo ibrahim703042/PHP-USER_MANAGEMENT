@@ -13,6 +13,25 @@
 <!-- alertifyjs -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+            $('#chosenFile').attr('src', e.target.result).css({
+
+                "margin-bottom": "20px",
+                "width": "100px",
+                "height": "100px"
+                
+                });
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 <script >
     <?php 

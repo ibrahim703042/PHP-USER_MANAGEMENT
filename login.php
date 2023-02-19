@@ -1,7 +1,8 @@
 <?php
    session_start();
+   include_once 'config/dbconnection.php';
+   include_once 'functions/fonction.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
    <?php include 'includes/head.php' ?>
